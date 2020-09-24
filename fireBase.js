@@ -221,6 +221,7 @@ function getLastActivity(currentTime){
   })
 }
 function loginWithFacebook(){
+  document.getElementById("section").style.display = "flex"
   var provider = new firebase.auth.FacebookAuthProvider();
   firebase.auth().signInWithRedirect(provider);
   firebase.auth().getRedirectResult().then(function(result) {
@@ -228,7 +229,6 @@ function loginWithFacebook(){
       // This gives you a Facebook Access Token. You can use it to access the Facebook API.
       var token = result.credential.accessToken;
       console.log(`result==>${result}`)
-      // ...
     }
     // The signed-in user info.
     var user = result.user;
@@ -241,10 +241,10 @@ function loginWithFacebook(){
     // The firebase.auth.AuthCredential type that was used.
     var credential = error.credential;
     errorHandler(error)
-    // ...
   });
 }
 function loginWithGoogle(){
+  document.getElementById("section").style.display = "flex"
   // Google Auth Config
   var provider = new firebase.auth.GoogleAuthProvider();
   firebase.auth().signInWithRedirect(provider);
@@ -252,7 +252,7 @@ function loginWithGoogle(){
     if (result.credential) {
       // This gives you a Google Access Token. You can use it to access the Google API.
       var token = result.credential.accessToken;
-      // ...
+      console.log(`result==>${result}`)
     }
     // The signed-in user info.
     var user = result.user;
@@ -264,7 +264,7 @@ function loginWithGoogle(){
     var email = error.email;
     // The firebase.auth.AuthCredential type that was used.
     var credential = error.credential;
-    // ...
+    errorHandler(error)
   });
 }
 function login(){
