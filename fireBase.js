@@ -227,6 +227,7 @@ function loginWithFacebook(){
     if (result.credential) {
       // This gives you a Facebook Access Token. You can use it to access the Facebook API.
       var token = result.credential.accessToken;
+      console.log(`result==>${result}`)
       // ...
     }
     // The signed-in user info.
@@ -239,6 +240,7 @@ function loginWithFacebook(){
     var email = error.email;
     // The firebase.auth.AuthCredential type that was used.
     var credential = error.credential;
+    errorHandler(error)
     // ...
   });
 }
