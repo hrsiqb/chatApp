@@ -368,46 +368,52 @@ function setAutoUpdateMessages(){
         numberOfMessages++
       }
     }
+    if(numberOfMessages){
     //set auto update of messages
-    firebase.database().ref('Messages').on("child_added", function(data){//once means,run this function only once. value refers to => Run this function when the value is updated. data=>received data from database
-      var data = data.val()
-      let messagesPanel = document.getElementById("messagesPanel")
-      let dataObj = data
-      if(dataObj.fromUserId === uId && dataObj.toUserId === toUId){
-        messagesPanel.innerHTML += `<div style="display:flex; flex-direction:row; justify-content: flex-end;"><span class="sentMessage" style='float:right'>${dataObj.message}</span><div class="sentTail" style='float:right'></div></div><br>`
-        messagesPanel.scrollIntoView(false)
-      }
-      else if(dataObj.toUserId === uId && dataObj.fromUserId === toUId){
-        firebase.database().ref(`Messages/${dataObj.key}/readFlag`).set(0)//set means that we dont want to overwrite the data but save in the same key as we did above, we used push above now we have to use set here
-        .then((result) => {
-          msgCount[dataObj.fromUserId] = 0
-          document.getElementById(dataObj.fromUserId).childNodes[1].firstChild.innerHTML = ''
-        })
-        .catch(function(error){
-          errorHandler(error)
-        })
-        messagesPanel.innerHTML += `<div style="display:flex; flex-direction:row;"><div class="receivedTail"></div><span class="receivedMessage" style='float:left;'>${dataObj.message}</span></div><br>`
-        messagesPanel.scrollIntoView(false)
-      }
+      firebase.database().ref('Messages').on("child_added", function(data){//once means,run this function only once. value refers to => Run this function when the value is updated. data=>received data from database
+        var data = data.val()
+        let messagesPanel = document.getElementById("messagesPanel")
+        let dataObj = data
+        if(dataObj.fromUserId === uId && dataObj.toUserId === toUId){
+          messagesPanel.innerHTML += `<div style="display:flex; flex-direction:row; justify-content: flex-end;"><span class="sentMessage" style='float:right'>${dataObj.message}</span><div class="sentTail" style='float:right'></div></div><br>`
+          messagesPanel.scrollIntoView(false)
+        }
+        else if(dataObj.toUserId === uId && dataObj.fromUserId === toUId){
+          firebase.database().ref(`Messages/${dataObj.key}/readFlag`).set(0)//set means that we dont want to overwrite the data but save in the same key as we did above, we used push above now we have to use set here
+          .then((result) => {
+            msgCount[dataObj.fromUserId] = 0
+            document.getElementById(dataObj.fromUserId).childNodes[1].firstChild.innerHTML = ''
+          })
+          .catch(function(error){
+            errorHandler(error)
+          })
+          messagesPanel.innerHTML += `<div style="display:flex; flex-direction:row;"><div class="receivedTail"></div><span class="receivedMessage" style='float:left;'>${dataObj.message}</span></div><br>`
+          messagesPanel.scrollIntoView(false)
+        }
 
-      if(dataObj.toUserId === uId && dataObj.readFlag === 1){
-        if(!document.getElementById(`sendBtn_${dataObj.fromUserId}`)){
-          msgCount[dataObj.fromUserId]++
-          document.getElementById(dataObj.fromUserId).childNodes[1].firstChild.innerHTML = msgCount[dataObj.fromUserId]
+        if(dataObj.toUserId === uId && dataObj.readFlag === 1){
+          if(!document.getElementById(`sendBtn_${dataObj.fromUserId}`)){
+            msgCount[dataObj.fromUserId]++
+            document.getElementById(dataObj.fromUserId).childNodes[1].firstChild.innerHTML = msgCount[dataObj.fromUserId]
+          }
+          else{
+            msgCount[dataObj.fromUserId] = 0
+            document.getElementById(dataObj.fromUserId).childNodes[1].firstChild.innerHTML = ''
+          }
         }
-        else{
-          msgCount[dataObj.fromUserId] = 0
-          document.getElementById(dataObj.fromUserId).childNodes[1].firstChild.innerHTML = ''
+        if(firstRun){
+          numberOfAppendedMessages++
+          if(numberOfAppendedMessages === numberOfMessages){
+            firstRun == false
+            document.getElementById("section").style.display = "none"
+          }
         }
-      }
-      if(firstRun){
-        numberOfAppendedMessages++
-        if(numberOfAppendedMessages === numberOfMessages){
-          firstRun == false
-          document.getElementById("section").style.display = "none"
-        }
-      }
-    })
+      })
+    }
+    else{
+      firstRun == false
+      document.getElementById("section").style.display = "none"
+    }
   })
 }
 function typing(){
