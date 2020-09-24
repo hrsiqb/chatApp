@@ -1,4 +1,3 @@
-
 var interval = ''
 var name = ''
 var email = ''
@@ -48,29 +47,6 @@ function ifLoggedIn(){
       var isAnonymous = user.isAnonymous;
       uId = user.uid;
       var providerData = user.providerData;
-
-      // if(displayName !== null){//if name is set in the session, it means that a user is registered
-      //   sessionStorage.clear()
-
-      //   let data = {
-      //     name: displayName,
-      //     email: email,
-      //     key: uId,
-      //     lastActivity: 0
-      //   }
-      //   //Insert User's data into Database
-      //   firebase.database().ref(`Users/${uId}`).set(data)//set means that we dont want to overwrite the data but save in the same key as we did above, we used push above now we have to use set here
-      //   .then((result) => {
-      //     //If operation is completed, get all users data and append on dashboard
-      //     getNumberOfUsers()
-      //   })
-      //   .catch(function(error){
-      //     errorHandler(error)
-      //   }) 
-      // }
-      // else{//if name is not set in the session, it means that the user is logged in
-      //   getNumberOfUsers()
-      // }
       getUsers()
     }
     else {
@@ -317,7 +293,7 @@ function startChat(id){
   `<div id="messagesContainer"><div id="messagesPanel"></div></div>
   <div id="writeMessagePanel">
       <input type="text" name="newMessage" class="form-control" onkeyup="typing()" id="newMessage" placeholder="Type a message">
-      <button class="btn btn-success sendBtn" id="sendBtn" onclick="sendMessage(this)"><b>></b></button>
+      <button class="btn btn-basic sendBtn" id="sendBtn" onclick="sendMessage(this)"><img src="Images/send-fill.png" style="width: 22px"></button>
   </div>`
 
   let toUserName = id.firstChild.childNodes[1].firstChild.innerHTML
