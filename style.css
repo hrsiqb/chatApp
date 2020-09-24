@@ -51,12 +51,9 @@ html, body{
     height: 10vh;
     background-color: #ededed;
 }
-.sendBtn{
-    height: 40px;
-    border-radius: 50%;
-    padding: 0 13px;
-    font-size: 20px;
-    margin: 0 5px !important;
+.sendBtn:focus{
+  outline: none !important;
+  box-shadow: none !important;
 }
 #newMessage
 {
