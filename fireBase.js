@@ -223,8 +223,7 @@ function getLastActivity(currentTime){
 function loginWithFacebook(){
   document.getElementById("section").style.display = "flex"
   var provider = new firebase.auth.FacebookAuthProvider();
-  firebase.auth().signInWithRedirect(provider);
-  firebase.auth().getRedirectResult().then(function(result) {
+  firebase.auth().signInWithPopup(provider).then(function(result) {
     if (result.credential) {
       // This gives you a Facebook Access Token. You can use it to access the Facebook API.
       var token = result.credential.accessToken;
