@@ -246,8 +246,8 @@ function loginWithGoogle(){
   document.getElementById("section").style.display = "flex"
   // Google Auth Config
   var provider = new firebase.auth.GoogleAuthProvider();
-  firebase.auth().signInWithRedirect(provider);
-  firebase.auth().getRedirectResult().then(function(result) {
+  firebase.auth().signInWithPopup(provider)
+  .then(function(result) {
     if (result.credential) {
       // This gives you a Google Access Token. You can use it to access the Google API.
       var token = result.credential.accessToken;
