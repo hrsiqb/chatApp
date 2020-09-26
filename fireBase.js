@@ -62,11 +62,13 @@ function appendUsers(){
     var objName = dataObj.name
     var objEmail = dataObj.email
     var objPhotoURL = dataObj.photoUrl
+    
     if(dataObj.key === uId){
       action_login = true;
       document.getElementById("currentNameB").innerHTML = objName
       document.getElementById("currentName").innerHTML = objName
       document.getElementById("currentEmail").innerHTML = objEmail
+      numberOfAppendedUsers++
     }
     else{
       let usersHTML = `<li style="border-bottom: 1px solid rgba(83, 82, 82, 0.2); list-style-type: none;`
@@ -92,14 +94,13 @@ function appendUsers(){
       numberOfAppendedUsers++
       msgCount[dataObj.key] = 0
     }
-    if(numberOfAppendedUsers === numberOfUsers-1){
+    if(numberOfAppendedUsers === numberOfUsers){
       if(!action_login){
         if(defaultDisplayName !== null){
           name = defaultDisplayName 
           sessionStorage.clear()
         }
         else name = displayName
-        
         let data = {
           name: name,
           email: email,
@@ -163,9 +164,9 @@ function getUsers(){
   firebase.database().ref('Users').once("value", function(data){//once means,run this function only once. value refers to => Run this function when the value is updated. data=>received data from database
     var data = data.val()
     for(var property in data){//run this loop as long as the data has some property
-        if(data.hasOwnProperty(property)){//check if this is its own proeprty
-          numberOfUsers++
-        }
+      if(data.hasOwnProperty(property)){//check if this is its own proeprty
+        numberOfUsers++
+      }
     }
     appendUsers()
   })
@@ -203,7 +204,6 @@ function loginWithFacebook(){
     if (result.credential) {
       // This gives you a Facebook Access Token. You can use it to access the Facebook API.
       var token = result.credential.accessToken;
-      console.log(`result==>${result}`)
     }
     // The signed-in user info.
     var user = result.user;
@@ -227,7 +227,6 @@ function loginWithGoogle(){
     if (result.credential) {
       // This gives you a Google Access Token. You can use it to access the Google API.
       var token = result.credential.accessToken;
-      console.log(`result==>${result}`)
     }
     // The signed-in user info.
     var user = result.user;
@@ -362,7 +361,6 @@ function setAutoUpdateMessages(){
   //get number of messages
   firebase.database().ref('Messages').once("value", function(data){//once means,run this function only once. value refers to => Run this function when the value is updated. data=>received data from database
     var data = data.val()
-    
     for(var property in data){//run this loop as long as the data has some property
       if(data.hasOwnProperty(property)){//check if this is its own proeprty
         numberOfMessages++
